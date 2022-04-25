@@ -1,0 +1,2 @@
+;etude;date;var_predict;code_modele;nom_modele;precision_apprent;precision_valid
+0;test_climat;2022-04-12;predict_croyance_id;SVM;Machine Vecteurs de Supports;94.79289940828403;83.90532544378698

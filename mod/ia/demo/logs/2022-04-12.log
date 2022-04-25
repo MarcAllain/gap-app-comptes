@@ -1,0 +1,175 @@
+
+*** DEB ********************************************************************************************
+
+> APPRENTISSAGE...
+
+    Chargement des données
+
+        > dtfMessages [4225 lignes]
+
+            ------------------------------------------------------------------------------
+                        colonne           |     format    |    non-null   |    non-null%  
+            ------------------------------------------------------------------------------
+             TWEET                        | object        |          4225 |        100.00 
+             CROYANCE                     | object        |          4225 |        100.00 
+             CONFIENCE                    | float64       |          4225 |        100.00 
+            ------------------------------------------------------------------------------
+
+    > [fnc_modelisations] sMethode=L / dRatioValNull=0.5 / dRatioJeuTest=0.2
+
+        Liste des modèles
+            RLM [R, , ] : Régression Linéaire Multiple
+            RLG [ ,C, ] : Régression Logistique
+            RDF [R,C, ] : Random Forest
+            ARD [R,C, ] : Arbre de Décision
+            KNB [R,C, ] : K Neighbors
+            SVM [ , ,L] : Machine Vecteurs de Supports
+            GBT [ , , ] : Gradient Boosting
+            TFW [ , , ] : Tensor Flow
+
+        > Prédiction "predict_croyance"
+
+            > [fnc_prepa_predict]
+
+                Suppression des autres variables prédictives
+
+                Suppression des lignes sans variable prédictive
+                    0 lignes supprimées
+
+                > dtfData [4225 lignes]
+
+                    ------------------------------------------------------------------------------
+                                colonne           |     format    |    non-null   |    non-null%  
+                    ------------------------------------------------------------------------------
+                     txt_tweet                    | object        |          4225 |        100.00 
+                     predict_croyance             | object        |          4225 |        100.00 
+                    ------------------------------------------------------------------------------
+
+
+            > [fnc_prepa_null]
+
+            > [fnc_prepa_date]
+
+            > [fnc_prepa_cat]
+
+                Détection catégories & encodage
+                Encodage des classifications cibles
+                    predict_croyance (2 modalités)
+                    ----------------------------------------------------------------------------------
+                           id      |                  predict_croyance                |       nb      
+                    ----------------------------------------------------------------------------------
+                                 0 | Yes                                              |          3111 
+                                 1 | No                                               |          1114 
+                    ----------------------------------------------------------------------------------
+
+
+            > Datasets d'entrée
+
+                > dtfObserv [4225 lignes]
+
+                    ------------------------------------------------------------------------------
+                                colonne           |     format    |    non-null   |    non-null%  
+                    ------------------------------------------------------------------------------
+                     txt_tweet                    | object        |          4225 |        100.00 
+                    ------------------------------------------------------------------------------
+
+                > dtfPredict [4225 lignes]
+
+                    ------------------------------------------------------------------------------
+                                colonne           |     format    |    non-null   |    non-null%  
+                    ------------------------------------------------------------------------------
+                     predict_croyance_id          | int64         |          4225 |        100.00 
+                    ------------------------------------------------------------------------------
+
+            >>> Modèle "Machine Vecteurs de Supports"
+
+                        > [fnc_prepa_nlp]
+
+                            Préparation des données de type texte (nlp)
+                                txt_tweet
+                                    Normalisation
+                                    Suppression des "stop words"
+                                    Stemmisation
+                                    Lemmatisation
+
+                Jeux d'entrainement / validation
+                Entrainement
+                    Création du pipeline
+                    Optimisation des paramètres
+                        Meilleurs params : 1
+                    Apprentissage
+                    Evaluation
+                Evaluations
+                Export (resultats/test_climat/2022-04-12/predict_croyance_svm.mod)
+
+    > Résultats - Etude "test_climat"
+
+        ---------------------------------------------------------------------------------------------------------------------------
+                  var_predict         |           nom_modele         |       precision_apprent      |        precision_valid       
+        ---------------------------------------------------------------------------------------------------------------------------
+         predict_croyance_id          | Machine Vecteurs de Supports |                        94.79 |                        83.91 
+        ---------------------------------------------------------------------------------------------------------------------------
+
+
+> PREDICTION...
+
+    Import (resultats/test_climat/2022-04-12/predict_croyance_svm.mod)
+    Prédiction
+            > [fnc_prepa_nlp]
+
+                Préparation des données de type texte (nlp)
+                    txt_tweet
+                        Normalisation
+                        Suppression des "stop words"
+                        Stemmisation
+                        Lemmatisation
+
+        > dtfObserv [3 lignes]
+
+            ------------------------------------------------------------------------------
+                        colonne           |     format    |    non-null   |    non-null%  
+            ------------------------------------------------------------------------------
+             txt_tweet                    | object        |             3 |        100.00 
+            ------------------------------------------------------------------------------
+
+        > dtfPredict [3 lignes]
+
+            ------------------------------------------------------------------------------
+                        colonne           |     format    |    non-null   |    non-null%  
+            ------------------------------------------------------------------------------
+             predict_croyance_id          | int64         |             3 |        100.00 
+            ------------------------------------------------------------------------------
+
+        > dtfClasses [2 lignes]
+
+            ------------------------------------------------------------------------------
+                        colonne           |     format    |    non-null   |    non-null%  
+            ------------------------------------------------------------------------------
+             Unnamed: 0                   | object        |             2 |        100.00 
+             nb                           | int64         |             2 |        100.00 
+             predict_croyance             | object        |             2 |        100.00 
+             id                           | int64         |             2 |        100.00 
+            ------------------------------------------------------------------------------
+
+        > dtfResultats [3 lignes]
+
+            ------------------------------------------------------------------------------
+                        colonne           |     format    |    non-null   |    non-null%  
+            ------------------------------------------------------------------------------
+             txt_tweet                    | object        |             3 |        100.00 
+             predict_croyance_id          | int64         |             3 |        100.00 
+             predict_croyance             | object        |             3 |        100.00 
+            ------------------------------------------------------------------------------
+
+        > Résultats
+
+            --------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                          txt_tweet                                             |    predict_croyance_id  |     predict_croyance    
+            --------------------------------------------------------------------------------------------------------------------------------------------------------
+             why should trust scientist with global warming if they didnt know pluto wasnt a planet !!!         |                       1 | No                      
+             our climat is changing just we are changing, do you believ in climat change?                       |                       0 | Yes                     
+             how do we solv this global warming thing?                                                          |                       0 | Yes                     
+            --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+*** FIN ********************************************************************************************

@@ -1,0 +1,8 @@
+pandas
+numpy
+openpyxl
+datetime
+sklearn
+seaborn
+matplotlib
+nltk
