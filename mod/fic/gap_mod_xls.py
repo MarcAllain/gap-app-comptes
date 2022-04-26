@@ -24,3 +24,4 @@ class Xls(Fic):
     def mChargerOnglet(self, sOnglet=""):
         self.sOnglet = sOnglet
         return pnd.read_excel(self.sUrl, sheet_name=sOnglet)
+

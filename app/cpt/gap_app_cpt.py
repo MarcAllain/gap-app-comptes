@@ -59,7 +59,7 @@ class GapAppCpt:
 
         # Résultats
         self.log.i(sNom="dtfComptes", dtfData=self.dtfHistorique, iIndent=self.iIndent+1)
-        self.dtfHistorique.to_csv("resultats/comptes_avant.csv", sep=";", encoding="UTF8")
+        # self.dtfHistorique.to_csv("resultats/comptes_avant.csv", sep=";", encoding="UTF8")
 
 
 
@@ -136,7 +136,7 @@ class GapAppCpt:
 
         # Résultats
         self.log.i(sNom="dtfOperations", dtfData=self.dtfOperations, iIndent=self.iIndent+1)
-        self.dtfOperations.to_csv("resultats/operations.csv", sep=";", encoding="UTF8")
+        #self.dtfOperations.to_csv("resultats/operations.csv", sep=";", encoding="UTF8")
 
 
     def fnc_ia_apprentissages(self):
@@ -228,30 +228,22 @@ class GapAppCpt:
 
         self.log.w("[fnc_exporter_comptes] sUrl=%s" % sUrl, iIndent=self.iIndent, bPuce=True)
 
-        self.dtfOperations.to_csv(sUrl, sep=";", encoding="UTF8")
-
-        self.log.i("dtfHistorique",self.dtfHistorique)
-        self.log.i("dtfOperations", self.dtfOperations)
-
-        # TODO réindexation des nouvelles opérations
+        # réindexation des nouvelles opérations
+        self.dtfOperations = self.dtfOperations.set_index('num_operation')
 
         # TODO ajout colonnes manquantes sur nouvelles opérations (infos comptes / proprio ...)
 
         # Consolidation des comptes
         dtfExport = pnd.concat([self.dtfHistorique,self.dtfOperations])
-        dtfExport.to_csv("resultats/consolidation.csv", sep=";", encoding="UTF8")
+        dtfExport.to_csv(sUrl, sep=";", encoding="ANSI")
 
+        # TODO Export TdB => Page "Synthèse M" : soldes de tous mes comptes
 
+        # TODO Export TdB => Page "Synthèse M&L" : soldes de tous les comptes communs
 
-        # TODO Export Excel => onglet "Détails" : historique de toutes les opérations
+        # TODO Export TdB => Page "Charges" : Synthèse des charges par catégorie & mois
 
-        # TODO Export Excel => onglet "Soldes" : soldes de tous les comptes
-
-        # TODO Export Excel => onglet "Epargne" : total de mon épargne
-
-        # TODO Export Excel => onglet "Charges" : Synthèse des charges par catégorie & mois
-
-        # TODO Export Excel => onglet "Projet Maison" : Synthèse des travaux et aménagement par personne / catégorie / fournisseur / mois
+        # TODO Export TdB => Page "Maison" : Synthèse des travaux et aménagement par personne / catégorie / fournisseur / mois
 
 
 
